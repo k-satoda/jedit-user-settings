@@ -1,0 +1,9 @@
+jedit-user-settings: Some of sharable parts in my jEdit settings directory
+
+* This file is for the shared git repository, not for the whole local
+  settings even though this appears at the top of an user settings
+  directory.
+
+See:
+  http://www.jedit.org/
+  http://www.jedit.org/users-guide/settings-directory.html
