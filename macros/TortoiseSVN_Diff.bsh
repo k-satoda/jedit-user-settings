@@ -1,0 +1,5 @@
+String[] args = {
+    "/command:diff",
+    "/path:" + buffer.getPath(),
+};
+runTortoiseProc(args);

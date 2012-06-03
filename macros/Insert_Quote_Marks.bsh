@@ -1,0 +1,50 @@
+/**
+ * Insert quote mark ">" for each selected lines.
+ *
+ * Copyright (C) 2012 Kazutoshi Satoda
+ */
+void insertQuoteMarks(JEditTextArea textArea)
+{
+    if (!textArea.isEditable())
+    {
+        textArea.getToolkit().beep();
+        return;
+    }
+    String mark = ">";
+    String new_mark = mark + " ";
+    JEditBuffer buffer = textArea.getBuffer();
+    buffer.writeLock();
+    try
+    {
+        for (int target: textArea.getSelectedLines())
+        {
+            int line_start = buffer.getLineStartOffset(target);
+            String insertion;
+            if (buffer.getLineLength(target) == 0
+                || buffer.getLineText(target).startsWith(mark))
+            {
+                insertion = mark;
+            }
+            else
+            {
+                insertion = new_mark;
+            }
+            buffer.insert(line_start, insertion);
+
+            // If the selection was at the start of line, keep that state.
+            // Otherwise, the selection happens to move.
+            int end_of_mark = line_start + insertion.length();
+            Selection s = textArea.getSelectionAtOffset(end_of_mark);
+            if (s != null && s.getStart() == end_of_mark)
+            {
+                textArea.extendSelection(line_start, end_of_mark);
+            }
+        }
+    }
+    finally
+    {
+        buffer.writeUnlock();
+    }
+}
+
+insertQuoteMarks(textArea);

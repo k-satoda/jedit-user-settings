@@ -1,0 +1,5 @@
+String[] args = {
+    "/command:log",
+    "/path:" + buffer.getPath(),
+};
+runTortoiseProc(args);

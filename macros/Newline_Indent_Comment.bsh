@@ -1,0 +1,60 @@
+/**
+ * Extention for the built-in action "insert-newline-indent" which
+ * detects if the line is in a comment and insert appropriate prefix
+ * and indent.
+ *
+ * Copyright (C) 2012 Kazutoshi Satoda
+ */
+void newlineIndentComment(JEditTextArea textArea)
+{
+    if (!textArea.isEditable())
+    {
+        textArea.getToolkit().beep();
+        return;
+    }
+    JEditBuffer buffer = textArea.getBuffer();
+    buffer.writeLock();
+    try
+    {
+        textArea.insertEnterAndIndent();
+        int lineIndex = textArea.getCaretLine() - 1;
+
+        // This is a good place to clean up the line which has been
+        // likely "finished". This works also for auto-indented empty
+        // lines (e.g. the result of repeated Enter) which would left
+        // whitespace only without this.
+        buffer.removeTrailingWhiteSpace(new int [] {lineIndex});
+
+        String line = textArea.getLineText(lineIndex);
+        if (!line.endsWith("*/"))
+        {
+            java.util.regex.Matcher matcher
+                = java.util.regex.Pattern.compile(
+                    "\\s*(/\\*+|\\*+|//+)(\\s*)").matcher(line);
+            if (matcher.lookingAt())
+            {
+                // Break the compound edit of this macro invokation
+                // so that the additional insertion can be canceled
+                // by one step undo.
+                if (buffer.insideCompoundEdit())
+                {
+                    buffer.endCompoundEdit();
+                    buffer.beginCompoundEdit();
+                }
+
+                String prefix = matcher.group(1);
+                if (prefix.startsWith("/*"))
+                {
+                    prefix = " *";
+                }
+                textArea.setSelectedText(prefix + matcher.group(2));
+            }
+        }
+    }
+    finally
+    {
+        buffer.writeUnlock();
+    }
+}
+
+newlineIndentComment(textArea);

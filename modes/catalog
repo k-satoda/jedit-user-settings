@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODES SYSTEM "catalog.dtd">
+
+<MODES>
+
+<!-- Add lines like the following, one for each edit mode you add: -->
+<!-- <MODE NAME="foo" FILE="foo.xml" FILE_NAME_GLOB="*.foo" /> -->
+
+<MODE NAME="custom-c" FILE="custom-c.xml"
+ FILE_NAME_GLOB="*.{c,h,cc,cpp,hh,hpp,cxx}" />
+<MODE NAME="custom-makefile" FILE="custom-makefile.xml"
+ FILE_NAME_GLOB="{*makefile,*.mak}" />
+<MODE NAME="custom-inno-setup" FILE="custom-inno-setup.xml"
+ FILE_NAME_GLOB="*.iss" />
+
+</MODES>

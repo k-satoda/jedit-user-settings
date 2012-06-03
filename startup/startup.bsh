@@ -1,0 +1,28 @@
+// This makes jEdit a bit more cygwin-friendly.
+String home_env = System.getenv("HOME");
+if (home_env != null && !home_env.equals(""))
+{
+    System.setProperty("user.home", home_env);
+}
+
+// This is a workaround for a problem: In default Windows look&feel
+// where MS Gothic is used as the font of text fields, underlines for
+// composed texts isn't visible in JTextField.
+javax.swing.UIManager.put("TextField.font"
+    , new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
+
+// Enable Highlight plugin on startup.
+// There seems to be no option in the plugin (version 1.6.0) itself
+// to do this.
+try { gatchan.highlight.HighlightPlugin.enableHighlights(); } catch (e) {}
+
+// Prepare a function to run TortoiseSVN command. This can be used by
+// some custom macros.
+void runTortoiseProc(String[] args)
+{
+    String exe = System.getenv("PROGRAMFILES")
+            + "/TortoiseSVN/bin/TortoiseProc.exe";
+    StringBuilder command = new StringBuilder(exe);
+    for (String arg: args) command.append(' ').append(arg);
+    Runtime.getRuntime().exec(command.toString());
+}

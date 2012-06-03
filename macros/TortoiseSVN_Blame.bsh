@@ -1,0 +1,6 @@
+String[] args = {
+    "/command:blame",
+    "/path:" + buffer.getPath(),
+    "/line:" + (textArea.getCaretLine() + 1),
+};
+runTortoiseProc(args);
