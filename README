@@ -1,7 +1,8 @@
-jedit-user-settings: Some of sharable parts in my jEdit settings directory
+k-satoda/jedit-user-settings:
+  Some of sharable parts in my jEdit settings directory
 
-* This file is for the shared git repository, not for the whole local
-  settings even though this appears at the top of an user settings
+* This README file is for the shared git repository, not for the whole
+  local settings even though this appears at the top of an user settings
   directory.
 
 See:
