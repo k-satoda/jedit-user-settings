@@ -3,7 +3,7 @@
 <!DOCTYPE MODE SYSTEM "xmode.dtd">
 
 <!-- A hybrid mode for C and C++. -->
-<!-- This is almost based on ISO C++ Standard 2003. But use of this for
+<!-- This is almost based on ISO C++ Standard 2011. But use of this for
     C helps to make the source compatible with C++. -->
 <MODE>
     <PROPS>
@@ -90,22 +90,18 @@
         </SPAN>
         <EOL_SPAN TYPE="COMMENT1">//</EOL_SPAN>
 
-        <SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE" ESCAPE="\">
-            <BEGIN>L"</BEGIN>
-            <END>"</END>
-        </SPAN>
-        <SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE" ESCAPE="\">
-            <BEGIN>"</BEGIN>
-            <END>"</END>
-        </SPAN>
-        <SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE" ESCAPE="\">
-            <BEGIN>L'</BEGIN>
-            <END>'</END>
-        </SPAN>
-        <SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE" ESCAPE="\">
-            <BEGIN>'</BEGIN>
-            <END>'</END>
-        </SPAN>
+        <SPAN_REGEXP TYPE="LITERAL1" NO_LINE_BREAK="FALSE" ESCAPE="" HASH_CHARS="LUuR">
+            <BEGIN>(L|U|u8?)?R"([^ ()\\]{0,16})\(</BEGIN>
+            <END REGEXP="TRUE">\)$2"([a-zA-Z_][0-9a-zA-Z_]*)?</END>
+        </SPAN_REGEXP>
+        <SPAN_REGEXP TYPE="LITERAL1" NO_LINE_BREAK="TRUE" ESCAPE="" HASH_CHARS="LUu&quot;">
+            <BEGIN>(L|U|u8?)?"</BEGIN>
+            <END REGEXP="TRUE">"([a-zA-Z_][0-9a-zA-Z_]*)?</END>
+        </SPAN_REGEXP>
+        <SPAN_REGEXP TYPE="LITERAL1" NO_LINE_BREAK="TRUE" ESCAPE="" HASH_CHARS="LUu'">
+            <BEGIN>[LUu]?'</BEGIN>
+            <END REGEXP="TRUE">'([a-zA-Z_][0-9a-zA-Z_]*)?</END>
+        </SPAN_REGEXP>
 
         <!-- Trigraphs -->
         <SEQ TYPE="LITERAL4">??(</SEQ>
@@ -169,32 +165,143 @@
         <SEQ TYPE="OPERATOR">{</SEQ>
         <SEQ TYPE="OPERATOR">;</SEQ>
 
+        <!-- Standard library macro names from <cinttypes> from ISO C++ Standard 2011 -->
+        <!-- Highlight these to indicate accidental use of them
+            in user source. They may be valid, but should cause
+            future conflicts. -->
+        <SEQ_REGEXP TYPE="LITERAL2" HASH_CHARS="P">PRI[diouxX]((FAST|LEAST)?(8|16|32|64)|(MAX|PTR))</SEQ_REGEXP>
+        <SEQ_REGEXP TYPE="LITERAL2" HASH_CHARS="S">SCN[diouxX]((FAST|LEAST)?(8|16|32|64)|(MAX|PTR))</SEQ_REGEXP>
+
         <KEYWORDS>
-            <!-- Predefined macro names from ISO C++ Standard 2003 -->
+            <!-- Predefined macro names from ISO C++ Standard 2011 -->
+            <LITERAL2>__cplusplus</LITERAL2>
             <LITERAL2>__DATE__</LITERAL2>
             <LITERAL2>__FILE__</LITERAL2>
             <LITERAL2>__LINE__</LITERAL2>
             <LITERAL2>__STDC_HOSTED__</LITERAL2>
-            <LITERAL2>__STDC_ISO_10646__</LITERAL2>
-            <LITERAL2>__STDC_VERSION__</LITERAL2>
-            <LITERAL2>__STDC__</LITERAL2>
             <LITERAL2>__TIME__</LITERAL2>
-            <LITERAL2>__cplusplus</LITERAL2>
-            <!-- Standard library macro names from ISO C++ Standard 2003 -->
-            <!-- Hilight these to indicate accidental use of them
+            <LITERAL2>__STDC__</LITERAL2>
+            <LITERAL2>__STDC_MB_MIGHT_NEQ_WC__</LITERAL2>
+            <LITERAL2>__STDC_VERSION__</LITERAL2>
+            <LITERAL2>__STDC_ISO_10646__</LITERAL2>
+            <LITERAL2>__STDCPP_STRICT_POINTER_SAFETY__</LITERAL2>
+            <LITERAL2>__STDCPP_THREADS__</LITERAL2>
+            <!-- Pragma operator from ISO C++ Standard 2011 -->
+            <KEYWORD2>_Pragma</KEYWORD2>
+            <!-- Standard library macro names from ISO C++ Standard 2011 -->
+            <!-- Highlight these to indicate accidental use of them
                 in user source. They may be valid, but should cause
                 future conflicts. -->
             <LITERAL2>BUFSIZ</LITERAL2>
             <LITERAL2>CLOCKS_PER_SEC</LITERAL2>
+            <LITERAL2>E2BIG</LITERAL2>
+            <LITERAL2>EACCES</LITERAL2>
+            <LITERAL2>EADDRINUSE</LITERAL2>
+            <LITERAL2>EADDRNOTAVAIL</LITERAL2>
+            <LITERAL2>EAFNOSUPPORT</LITERAL2>
+            <LITERAL2>EAGAIN</LITERAL2>
+            <LITERAL2>EALREADY</LITERAL2>
+            <LITERAL2>EBADF</LITERAL2>
+            <LITERAL2>EBADMSG</LITERAL2>
+            <LITERAL2>EBUSY</LITERAL2>
+            <LITERAL2>ECANCELED</LITERAL2>
+            <LITERAL2>ECHILD</LITERAL2>
+            <LITERAL2>ECONNABORTED</LITERAL2>
+            <LITERAL2>ECONNREFUSED</LITERAL2>
+            <LITERAL2>ECONNRESET</LITERAL2>
+            <LITERAL2>EDEADLK</LITERAL2>
+            <LITERAL2>EDESTADDRREQ</LITERAL2>
             <LITERAL2>EDOM</LITERAL2>
+            <LITERAL2>EEXIST</LITERAL2>
+            <LITERAL2>EFAULT</LITERAL2>
+            <LITERAL2>EFBIG</LITERAL2>
+            <LITERAL2>EHOSTUNREACH</LITERAL2>
+            <LITERAL2>EIDRM</LITERAL2>
             <LITERAL2>EILSEQ</LITERAL2>
+            <LITERAL2>EINPROGRESS</LITERAL2>
+            <LITERAL2>EINTR</LITERAL2>
+            <LITERAL2>EINVAL</LITERAL2>
+            <LITERAL2>EIO</LITERAL2>
+            <LITERAL2>EISCONN</LITERAL2>
+            <LITERAL2>EISDIR</LITERAL2>
+            <LITERAL2>ELOOP</LITERAL2>
+            <LITERAL2>EMFILE</LITERAL2>
+            <LITERAL2>EMLINK</LITERAL2>
+            <LITERAL2>EMSGSIZE</LITERAL2>
+            <LITERAL2>ENAMETOOLONG</LITERAL2>
+            <LITERAL2>ENETDOWN</LITERAL2>
+            <LITERAL2>ENETRESET</LITERAL2>
+            <LITERAL2>ENETUNREACH</LITERAL2>
+            <LITERAL2>ENFILE</LITERAL2>
+            <LITERAL2>ENOBUFS</LITERAL2>
+            <LITERAL2>ENODATA</LITERAL2>
+            <LITERAL2>ENODEV</LITERAL2>
+            <LITERAL2>ENOENT</LITERAL2>
+            <LITERAL2>ENOEXEC</LITERAL2>
+            <LITERAL2>ENOLCK</LITERAL2>
+            <LITERAL2>ENOLINK</LITERAL2>
+            <LITERAL2>ENOMEM</LITERAL2>
+            <LITERAL2>ENOMSG</LITERAL2>
+            <LITERAL2>ENOPROTOOPT</LITERAL2>
+            <LITERAL2>ENOSPC</LITERAL2>
+            <LITERAL2>ENOSR</LITERAL2>
+            <LITERAL2>ENOSTR</LITERAL2>
+            <LITERAL2>ENOSYS</LITERAL2>
+            <LITERAL2>ENOTCONN</LITERAL2>
+            <LITERAL2>ENOTDIR</LITERAL2>
+            <LITERAL2>ENOTEMPTY</LITERAL2>
+            <LITERAL2>ENOTRECOVERABLE</LITERAL2>
+            <LITERAL2>ENOTSOCK</LITERAL2>
+            <LITERAL2>ENOTSUP</LITERAL2>
+            <LITERAL2>ENOTTY</LITERAL2>
+            <LITERAL2>ENXIO</LITERAL2>
             <LITERAL2>EOF</LITERAL2>
+            <LITERAL2>EOPNOTSUPP</LITERAL2>
+            <LITERAL2>EOVERFLOW</LITERAL2>
+            <LITERAL2>EOWNERDEAD</LITERAL2>
+            <LITERAL2>EPERM</LITERAL2>
+            <LITERAL2>EPIPE</LITERAL2>
+            <LITERAL2>EPROTO</LITERAL2>
+            <LITERAL2>EPROTONOSUPPORT</LITERAL2>
+            <LITERAL2>EPROTOTYPE</LITERAL2>
             <LITERAL2>ERANGE</LITERAL2>
+            <LITERAL2>EROFS</LITERAL2>
+            <LITERAL2>ESPIPE</LITERAL2>
+            <LITERAL2>ESRCH</LITERAL2>
+            <LITERAL2>ETIME</LITERAL2>
+            <LITERAL2>ETIMEDOUT</LITERAL2>
+            <LITERAL2>ETXTBSY</LITERAL2>
+            <LITERAL2>EWOULDBLOCK</LITERAL2>
+            <LITERAL2>EXDEV</LITERAL2>
             <LITERAL2>EXIT_FAILURE</LITERAL2>
             <LITERAL2>EXIT_SUCCESS</LITERAL2>
+            <LITERAL2>FE_ALL_EXCEPT</LITERAL2>
+            <LITERAL2>FE_DFL_ENV</LITERAL2>
+            <LITERAL2>FE_DIVBYZERO</LITERAL2>
+            <LITERAL2>FE_DOWNWARD</LITERAL2>
+            <LITERAL2>FE_INEXACT</LITERAL2>
+            <LITERAL2>FE_INVALID</LITERAL2>
+            <LITERAL2>FE_OVERFLOW</LITERAL2>
+            <LITERAL2>FE_TONEAREST</LITERAL2>
+            <LITERAL2>FE_TOWARDZERO</LITERAL2>
+            <LITERAL2>FE_UNDERFLOW</LITERAL2>
+            <LITERAL2>FE_UPWARD</LITERAL2>
             <LITERAL2>FILENAME_MAX</LITERAL2>
             <LITERAL2>FOPEN_MAX</LITERAL2>
+            <LITERAL2>FP_FAST_FMA</LITERAL2>
+            <LITERAL2>FP_FAST_FMAF</LITERAL2>
+            <LITERAL2>FP_FAST_FMAL</LITERAL2>
+            <LITERAL2>FP_ILOGB0</LITERAL2>
+            <LITERAL2>FP_ILOGBNAN</LITERAL2>
+            <LITERAL2>FP_INFINITE</LITERAL2>
+            <LITERAL2>FP_NAN</LITERAL2>
+            <LITERAL2>FP_NORMAL</LITERAL2>
+            <LITERAL2>FP_SUBNORMAL</LITERAL2>
+            <LITERAL2>FP_ZERO</LITERAL2>
             <LITERAL2>HUGE_VAL</LITERAL2>
+            <LITERAL2>HUGE_VALF</LITERAL2>
+            <LITERAL2>HUGE_VALL</LITERAL2>
+            <LITERAL2>INFINITY</LITERAL2>
             <LITERAL2>LC_ALL</LITERAL2>
             <LITERAL2>LC_COLLATE</LITERAL2>
             <LITERAL2>LC_CTYPE</LITERAL2>
@@ -202,7 +309,10 @@
             <LITERAL2>LC_NUMERIC</LITERAL2>
             <LITERAL2>LC_TIME</LITERAL2>
             <LITERAL2>L_tmpnam</LITERAL2>
+            <LITERAL2>MATH_ERREXCEPT</LITERAL2>
+            <LITERAL2>MATH_ERRNO</LITERAL2>
             <LITERAL2>MB_CUR_MAX</LITERAL2>
+            <LITERAL2>NAN</LITERAL2>
             <LITERAL2>NULL</LITERAL2>
             <LITERAL2>RAND_MAX</LITERAL2>
             <LITERAL2>SEEK_CUR</LITERAL2>
@@ -224,17 +334,23 @@
             <LITERAL2>_IOFBF</LITERAL2>
             <LITERAL2>_IOLBF</LITERAL2>
             <LITERAL2>_IONBF</LITERAL2>
+            <LITERAL2>__STDC_UTF_16__</LITERAL2>
+            <LITERAL2>__STDC_UTF_32__</LITERAL2>
+            <LITERAL2>__alignas_is_defined</LITERAL2>
+            <LITERAL2>__bool_true_false_are_defined</LITERAL2>
             <LITERAL2>assert</LITERAL2>
             <LITERAL2>errno</LITERAL2>
+            <LITERAL2>math_errhandling</LITERAL2>
             <LITERAL2>offsetof</LITERAL2>
             <LITERAL2>setjmp</LITERAL2>
             <LITERAL2>stderr</LITERAL2>
             <LITERAL2>stdin</LITERAL2>
             <LITERAL2>stdout</LITERAL2>
             <LITERAL2>va_arg</LITERAL2>
+            <LITERAL2>va_copy</LITERAL2>
             <LITERAL2>va_end</LITERAL2>
             <LITERAL2>va_start</LITERAL2>
-            <!-- Standard C library values from ISO C++ Standard 2003 -->
+            <!-- Standard C library values from ISO C++ Standard 2011 -->
             <!-- These are not explicitly defined as macro. But they like
                 to be due to compatibility with C library implementation.
                 So, treat them like standard library macro names. -->
@@ -284,7 +400,7 @@
             <LITERAL2>ULONG_MAX</LITERAL2>
             <LITERAL2>USRT_MAX</LITERAL2>
             <!-- Alternative representations of some operators
-                from ISO C++ Standard 2003 -->
+                from ISO C++ Standard 2011 -->
             <!-- These are separated from CORE because they are
                 available in the constant expressions after
                 #if and #elif preprocessor directives. -->
@@ -318,7 +434,9 @@
         -->
 
         <KEYWORDS>
-            <!-- Keywords from ISO C++ Standard 2003 -->
+            <!-- Keywords from ISO C++ Standard 2011 -->
+            <KEYWORD1>alignas</KEYWORD1>
+            <KEYWORD1>alignof</KEYWORD1>
             <KEYWORD1>asm</KEYWORD1>
             <KEYWORD1>auto</KEYWORD1>
             <KEYWORD1>bool</KEYWORD1>
@@ -326,10 +444,14 @@
             <KEYWORD1>case</KEYWORD1>
             <KEYWORD1>catch</KEYWORD1>
             <KEYWORD1>char</KEYWORD1>
+            <KEYWORD1>char16_t</KEYWORD1>
+            <KEYWORD1>char32_t</KEYWORD1>
             <KEYWORD1>class</KEYWORD1>
             <KEYWORD1>const</KEYWORD1>
             <KEYWORD1>const_cast</KEYWORD1>
+            <KEYWORD1>constexpr</KEYWORD1>
             <KEYWORD1>continue</KEYWORD1>
+            <KEYWORD1>decltype</KEYWORD1>
             <KEYWORD1>default</KEYWORD1>
             <KEYWORD1>delete</KEYWORD1>
             <KEYWORD1>do</KEYWORD1>
@@ -352,6 +474,8 @@
             <KEYWORD1>mutable</KEYWORD1>
             <KEYWORD1>namespace</KEYWORD1>
             <KEYWORD1>new</KEYWORD1>
+            <KEYWORD1>noexcept</KEYWORD1>
+            <KEYWORD1>nullptr</KEYWORD1>
             <KEYWORD1>operator</KEYWORD1>
             <KEYWORD1>private</KEYWORD1>
             <KEYWORD1>protected</KEYWORD1>
@@ -369,6 +493,7 @@
             <KEYWORD1>switch</KEYWORD1>
             <KEYWORD1>template</KEYWORD1>
             <KEYWORD1>this</KEYWORD1>
+            <KEYWORD1>thread_local</KEYWORD1>
             <KEYWORD1>throw</KEYWORD1>
             <KEYWORD1>true</KEYWORD1>
             <KEYWORD1>try</KEYWORD1>
@@ -383,11 +508,18 @@
             <KEYWORD1>volatile</KEYWORD1>
             <KEYWORD1>wchar_t</KEYWORD1>
             <KEYWORD1>while</KEYWORD1>
-            <!-- Additional keywords from ISO C Standard(C99) -->
+            <!-- Additional keywords from ISO C Standard 2011 -->
             <KEYWORD1>restrict</KEYWORD1>
+            <KEYWORD1>_Alignas</KEYWORD1>
+            <KEYWORD1>_Alignof</KEYWORD1>
+            <KEYWORD1>_Atomic</KEYWORD1>
             <KEYWORD1>_Bool</KEYWORD1>
             <KEYWORD1>_Complex</KEYWORD1>
+            <KEYWORD1>_Generic</KEYWORD1>
             <KEYWORD1>_Imaginary</KEYWORD1>
+            <KEYWORD1>_Noreturn</KEYWORD1>
+            <KEYWORD1>_Static_assert</KEYWORD1>
+            <KEYWORD1>_Thread_local</KEYWORD1>
         </KEYWORDS>
     </RULES>
 
@@ -413,7 +545,6 @@
             <KEYWORD2>line</KEYWORD2>
             <KEYWORD2>pragma</KEYWORD2>
             <KEYWORD2>undef</KEYWORD2>
-            <KEYWORD2>warning</KEYWORD2>
         </KEYWORDS>
     </RULES>
 
@@ -455,7 +586,7 @@
         <KEYWORDS>
             <KEYWORD2>defined</KEYWORD2>
             <!-- Both true and false are specially permitted by
-                ISO C++ Standard 2003 16.1p4 -->
+                ISO C++ Standard 2011 16.1p4 -->
             <KEYWORD2>true</KEYWORD2>
             <KEYWORD2>false</KEYWORD2>
         </KEYWORDS>
