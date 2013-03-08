@@ -18,28 +18,7 @@
         <PROPERTY NAME="unalignedOpenBrackets" VALUE="(" />
         <PROPERTY NAME="unalignedCloseBrackets" VALUE=")" />
         <PROPERTY NAME="indentNextLine"
-            VALUE="(?!^\s*(#|//))(.*(\b(if|while|for)\s*\(.*\)|\b(else|do)\b)|^\s*(explicit\s+)?[\p{Alpha}_][\p{Alnum}_:]*\s*\(.*\)(?!\s*:))[^{;]*$" />
-        <!-- The above indentNextLine contains workaroud for the
-            following style:
-            -
-                class Class : public Base
-                {
-                    int member;
-                public:
-                    Class()
-                        : Base(0)
-                        , member(1)
-                    {
-                    }
-                };
-            -
-            Without the workaround, typing one level indent and a ':'
-            after Class() before Base() results in a ':' at the same
-            indent as Class(), because the ':' is a electric key. -->
-        <!--
-        <PROPERTY NAME="indentNextLine"
             VALUE="(?!^\s*(#|//)).*(\b(if|while|for)\s*\(.*\)|\b(else|do)\b)[^{;]*$" />
-        -->
         <PROPERTY NAME="unindentThisLine"
             VALUE="^\s*((case\b.*|[\p{Alpha}_][\p{Alnum}_]*)\s*:(?!:)).*$" />
         <PROPERTY NAME="electricKeys" VALUE=":" />
