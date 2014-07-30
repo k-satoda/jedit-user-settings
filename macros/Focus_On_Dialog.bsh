@@ -1,0 +1,27 @@
+/**
+ * Focus on a modeless dialog.
+ *
+ * There seemed no other way to focus on Search&Replace dialog, or
+ * "File Changed" dialog with keyboard. Binding a key to this macro
+ * enable that.
+ *
+ * Copyright (C) 2014 Kazutoshi Satoda
+ */
+void focusOnDialog(View view)
+{
+  for (Window w: Window.getWindows())
+  {
+    if (w instanceof Dialog)
+    {
+      Dialog d = (Dialog)w;
+      if (d.isShowing())
+      {
+        d.getMostRecentFocusOwner().requestFocus();
+        return;
+      }
+    }
+  }
+  view.getToolkit().beep();
+}
+
+focusOnDialog(view);
